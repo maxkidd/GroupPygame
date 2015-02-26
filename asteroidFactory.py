@@ -1,12 +1,25 @@
 # asteroidFactory
 import pygame, random
 
+asteroid_1 = pygame.image.load("img/asteroid1.bmp")
+asteroid1_frames = 19
+asteroid_2 = pygame.image.load("img/asteroid3.bmp")
+asteroid2_frames = 20
+asteroid_3 = pygame.image.load("img/asteroid4.bmp")
+asteroid3_frames = 20
+asteroid_4 = pygame.image.load("img/asteroid5.bmp")
+asteroid4_frames = 20
+asteroid_5 = pygame.image.load("img/asteroid6.bmp")
+asteroid5_frames = 20
+asteroid_6 = pygame.image.load("img/asteroid7.bmp")
+asteroid6_frames = 20
+asteroid_7 = pygame.image.load("img/asteroid8.bmp")
+asteroid7_frames = 25
+	
 class AsteroidFactory:
-	def __init__(self, image_path):
+	def __init__(self):
 		## variables declared here are unique to each instance
-
-		self.image = pygame.image.load(image_path)
-
+		
 		self.size = 50
 		self.MAX_SPEED = 5
 		self.MIN_SPEED = 2
@@ -24,13 +37,33 @@ class AsteroidFactory:
 		# how much to hurt the player if they hit the asteroid
 		self.damage = 20
 
-	def spawn(self, width):
+	def spawn(self, width, image_index):
 		self.counter += 1
-
+		
+		asteroid = {
+		0: asteroid_1,
+		1: asteroid_2,
+		2: asteroid_3,
+		3: asteroid_4,
+		4: asteroid_5,
+		5: asteroid_6,
+		6: asteroid_7,
+		}.get(image_index, 0)
+		asteroid_frames = {
+		0: asteroid1_frames,
+		1: asteroid2_frames,
+		2: asteroid3_frames,
+		3: asteroid4_frames,
+		4: asteroid5_frames,
+		5: asteroid6_frames,
+		6: asteroid7_frames,
+		}.get(image_index, 0)
+		
 		if self.counter >= self.frameBetweenSpawns:
-			self.asteroids.append({'rect': pygame.Rect(random.randint(0, width - self.size), 0 - self.size, self.size, self.size),
+			self.asteroids.append({ 'frame': 0,
+						'rect': pygame.Rect(random.randint(0, width - self.size), 0 - self.size, self.size, self.size),
 						'speed': random.randint(self.MIN_SPEED, self.MAX_SPEED),
-						'surface':pygame.transform.scale(self.image, (self.size, self.size)),
+						'surface':pygame.transform.scale(asteroid, (asteroid.get_rect().width*asteroid_frames, asteroid.get_rect().height)),
 						'health': 100
 						})
 			self.counter = 0
@@ -56,7 +89,7 @@ class AsteroidFactory:
 
 	def draw(self, target):
 		for a in self.asteroids:
-			target.blit(a['surface'], a['rect'])
+			target.blit(a['surface'], a['rect'], pygame.Rect((a['frame']*(a['surface'].get_width()/self.size)),0,a['surface'].get_width()*2/self.size,a['surface'].get_height()))
 
 	def collide_bullets(self, bullets):
 		for a in self.asteroids:

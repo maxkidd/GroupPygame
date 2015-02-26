@@ -123,7 +123,7 @@ def main():
 
 
 	fontRenderer = FontRenderer()
-	asteroids    = AsteroidFactory("M:/groupPy/img/Rock.png")
+	asteroids    = AsteroidFactory()
 	fighters     = FighterFactory("img/enemy_1.png", "img/explosion_tiles.bmp", "audio\explosion_1.wav")
 
 	# Splash screen specific variables
@@ -231,7 +231,7 @@ def main():
 						bulletCounter = NEWBULLET
 
 			# UPDATE EVERYTHING
-			asteroids.spawn(WINDOWWIDTH)
+			asteroids.spawn(WINDOWWIDTH, 0)
 
 			fighters.spawn(WINDOWWIDTH)
 			#add to the boss fighter counter untill time for new boss to spawn
